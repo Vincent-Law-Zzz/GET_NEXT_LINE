@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:26:30 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/10 21:14:57 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/13 20:08:50 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 int	get_next_line(int fd, char **line)
 {
-	char buff[BUFFER_SIZE];
+	char		buff[BUFFER_SIZE + 1];
+	static char	*reminder;
+	int			flag;
 
-	read(fd, buff, BUFFER_SIZE);
-	write(1, buff, 64);
+	if (!(reminder = malloc(BUFFER_SIZE + 1)))
+		return (0);
+	reminder[0] = '\0';
+	flag = 1;
+	while ((flag > 0) && (reminder != '\0'))
+	{
+		flag = read(fd, buff, BUFFER_SIZE);
+		buff[BUFFER_SIZE] = '\0';
+		reminder = ft_strjoin(reminder, buff);
+		while (*reminder != '\0')
+			reminder++;
+	}
+	printf("%s\n", reminder);
+	*line = ft_strdup(reminder);
 	return (0);
 }
 

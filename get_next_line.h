@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 21:27:37 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/10 21:12:26 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/13 19:28:24 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <fcntl.h>
 
 size_t	ft_strlen(const char *str);
