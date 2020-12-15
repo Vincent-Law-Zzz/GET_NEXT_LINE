@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 21:27:42 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/10 21:06:14 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/15 20:37:15 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,20 @@ char	*ft_strdup(const char *s1)
 	}
 	res[counter] = '\0';
 	return (res);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	size_t i;
+
+	i = 0;
+	while (i <= ft_strlen(s))
+	{
+		if (s[i] == c)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
 }
 
 size_t	ft_strlen(const char *str)

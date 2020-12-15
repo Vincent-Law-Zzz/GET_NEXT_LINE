@@ -6,43 +6,64 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:26:30 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/13 20:08:50 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/15 23:19:07 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	get_next_line(int fd, char **line)
+void	ft_get_line(char **line, char **reminder, char *endofstr)
+{
+	char	*tmp;
+
+	tmp = *reminder;
+	*endofstr = '\0';
+	*line = ft_strdup(*reminder);
+	*reminder = ft_strdup((endofstr + 1));
+	free(tmp);
+}
+
+int		get_next_line(int fd, char **line)
 {
 	char		buff[BUFFER_SIZE + 1];
 	static char	*reminder;
 	int			flag;
+	char		*endofstr;
 
-	if (!(reminder = malloc(BUFFER_SIZE + 1)))
-		return (0);
-	reminder[0] = '\0';
 	flag = 1;
-	while ((flag > 0) && (reminder != '\0'))
+	endofstr = NULL;
+	if ((reminder != NULL) && (endofstr = ft_strchr(reminder, '\n')))
+		ft_get_line(line, &reminder, endofstr);
+	while ((flag = read(fd, buff, BUFFER_SIZE)) && !(endofstr))
 	{
-		flag = read(fd, buff, BUFFER_SIZE);
 		buff[BUFFER_SIZE] = '\0';
-		reminder = ft_strjoin(reminder, buff);
-		while (*reminder != '\0')
-			reminder++;
+		reminder = (reminder == NULL) ? ft_strdup(buff) :
+			ft_strjoin(reminder, buff);
+		if ((endofstr = ft_strchr(reminder, '\n')))
+			ft_get_line(line, &reminder, endofstr);
 	}
-	printf("%s\n", reminder);
-	*line = ft_strdup(reminder);
-	return (0);
+	if (flag == -1)
+		return (-1);
+	if (flag == 0)
+		return (0);
+	return (1);
 }
 
-int	main(void)
+int		main(void)
 {
 	int		fd;
-	char	**line;
+	char	*line;
 
-	line = NULL;
+	if (!(line = malloc(1)))
+		return (0);
+	*line = '\0';
 	fd = open("test.txt", O_RDONLY);
-	get_next_line(fd, line);
-	printf("%d\n", fd);
+	while (get_next_line(fd, &line))
+	{
+		printf("%s\n", line);
+		free(line);
+	}
+	printf("%s\n", line);
+	free(line);
 	return (0);
 }

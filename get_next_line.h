@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 21:27:37 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/13 19:28:24 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/15 20:37:48 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		get_next_line(int fd, char **line);
+char	*ft_strchr(const char *s, int c);
 #endif
 
 #ifndef BUFFER_SIZE
