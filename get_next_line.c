@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:26:30 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/24 20:44:37 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/24 22:06:15 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ int		get_next_line(int fd, char **line)
 
 	flag = 1;
 	endofstr = NULL;
-	if (*line)
-		free(*line);
 	if ((reminder != NULL) && (endofstr = ft_strchr(reminder, '\n')))
 		ft_get_line(line, &reminder, endofstr);
 	while (!(endofstr) && (flag = read(fd, buff, BUFFER_SIZE)))
@@ -54,26 +52,22 @@ int		get_next_line(int fd, char **line)
 int		main(void)
 {
 	int		fd = 0;
-	char	*line = NULL;
+	char	*line;
 	int		ret = 0;
 
-	if (!(line = malloc(1)))
-		return (0);
-	*line = '\0';
 	fd = open("test.txt", O_RDONLY);
 	while ((ret = get_next_line(fd, &line)))
 	{
 		printf("%s\n", line);
 		printf("|%d|\n", ret);
 		
-		// if (line)
-		// 	free(line);
+			free(line);
 		//getchar();
 	}
-	ret = get_next_line(fd, &line);
+	// ret = get_next_line(fd, &line);
 	printf("%s\n", line);
 	printf("|%d|\n", ret);
-	// if (line)
-	// 	free(line);
+		free(line);
+		getchar();
 	return (0);
 }

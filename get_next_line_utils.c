@@ -6,18 +6,20 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 21:27:42 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/22 22:04:20 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/24 21:25:33 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*p;
 	int		counter;
+	char	*tmp;
 
 	counter = 0;
+	tmp = s1;
 	if (!s1)
 		return (NULL);
 	if (!(p = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)
@@ -26,18 +28,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while ((*s1 != '\0') || (*s2 != '\0'))
 	{
 		if (*s1 != '\0')
-		{
-			p[counter] = *s1;
-			s1++;
-		}
+			p[counter] = *(s1++);
 		else
-		{
-			p[counter] = *s2;
-			s2++;
-		}
+			p[counter] = *(s2++);
 		counter++;
 	}
 	p[counter] = '\0';
+	free(tmp);
 	return (p);
 }
 
@@ -47,8 +44,7 @@ char	*ft_strdup(const char *s1)
 	int		counter;
 
 	res = NULL;
-	if (!s1 || !(*s1)
-	|| !(res = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char))))
+	if (!(res = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char))))
 		return (NULL);
 	counter = 0;
 	while (*s1 != '\0')
