@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:26:30 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/15 23:19:07 by aapollo          ###   ########.fr       */
+/*   Updated: 2020/12/24 20:44:37 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ int		get_next_line(int fd, char **line)
 
 	flag = 1;
 	endofstr = NULL;
+	if (*line)
+		free(*line);
 	if ((reminder != NULL) && (endofstr = ft_strchr(reminder, '\n')))
 		ft_get_line(line, &reminder, endofstr);
-	while ((flag = read(fd, buff, BUFFER_SIZE)) && !(endofstr))
+	while (!(endofstr) && (flag = read(fd, buff, BUFFER_SIZE)))
 	{
 		buff[BUFFER_SIZE] = '\0';
 		reminder = (reminder == NULL) ? ft_strdup(buff) :
@@ -42,28 +44,36 @@ int		get_next_line(int fd, char **line)
 		if ((endofstr = ft_strchr(reminder, '\n')))
 			ft_get_line(line, &reminder, endofstr);
 	}
-	if (flag == -1)
-		return (-1);
 	if (flag == 0)
-		return (0);
+		*line = ft_strdup(reminder);
+	if (flag <= 0)
+		return (flag);
 	return (1);
 }
 
 int		main(void)
 {
-	int		fd;
-	char	*line;
+	int		fd = 0;
+	char	*line = NULL;
+	int		ret = 0;
 
 	if (!(line = malloc(1)))
 		return (0);
 	*line = '\0';
 	fd = open("test.txt", O_RDONLY);
-	while (get_next_line(fd, &line))
+	while ((ret = get_next_line(fd, &line)))
 	{
 		printf("%s\n", line);
-		free(line);
+		printf("|%d|\n", ret);
+		
+		// if (line)
+		// 	free(line);
+		//getchar();
 	}
+	ret = get_next_line(fd, &line);
 	printf("%s\n", line);
-	free(line);
+	printf("|%d|\n", ret);
+	// if (line)
+	// 	free(line);
 	return (0);
 }
