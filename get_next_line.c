@@ -6,21 +6,24 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 18:26:30 by aapollo           #+#    #+#             */
-/*   Updated: 2020/12/24 22:06:15 by aapollo          ###   ########.fr       */
+/*   Updated: 2021/01/05 21:01:20 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_get_line(char **line, char **reminder, char *endofstr)
+int		ft_get_line(char **line, char **reminder, char *endofstr)
 {
 	char	*tmp;
 
 	tmp = *reminder;
 	*endofstr = '\0';
-	*line = ft_strdup(*reminder);
-	*reminder = ft_strdup((endofstr + 1));
+	if (!(*line = ft_strdup(*reminder)))
+		return (-1);
+	if (!(*reminder = ft_strdup((endofstr + 1))))
+		return (-1);
 	free(tmp);
+	return (0);
 }
 
 int		get_next_line(int fd, char **line)
@@ -37,13 +40,15 @@ int		get_next_line(int fd, char **line)
 	while (!(endofstr) && (flag = read(fd, buff, BUFFER_SIZE)))
 	{
 		buff[BUFFER_SIZE] = '\0';
-		reminder = (reminder == NULL) ? ft_strdup(buff) :
-			ft_strjoin(reminder, buff);
+		if (!(reminder = (reminder == NULL) ? ft_strdup(buff) :
+			ft_strjoin(reminder, buff)))
+			return (-1);
 		if ((endofstr = ft_strchr(reminder, '\n')))
 			ft_get_line(line, &reminder, endofstr);
 	}
 	if (flag == 0)
-		*line = ft_strdup(reminder);
+		if (!(*line = ft_strdup(reminder)))
+			return (-1);
 	if (flag <= 0)
 		return (flag);
 	return (1);
@@ -51,7 +56,7 @@ int		get_next_line(int fd, char **line)
 
 int		main(void)
 {
-	int		fd = 0;
+	unsigned	int	fd = 0;
 	char	*line;
 	int		ret = 0;
 
@@ -60,14 +65,15 @@ int		main(void)
 	{
 		printf("%s\n", line);
 		printf("|%d|\n", ret);
-		
-			free(line);
+		free(line);
 		//getchar();
 	}
-	// ret = get_next_line(fd, &line);
+	ret = get_next_line(fd, &line);
+	ret = get_next_line(fd, &line);
+	ret = get_next_line(fd, &line);
 	printf("%s\n", line);
 	printf("|%d|\n", ret);
 		free(line);
-		getchar();
+		//getchar();
 	return (0);
 }
