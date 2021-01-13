@@ -6,7 +6,7 @@
 /*   By: aapollo <aapollo@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 21:27:42 by aapollo           #+#    #+#             */
-/*   Updated: 2021/01/06 12:39:52 by aapollo          ###   ########.fr       */
+/*   Updated: 2021/01/10 19:22:13 by aapollo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		counter;
 	char	*tmp;
 
-	counter = 0;
-	tmp = s1;
 	if (!s1)
 		return (NULL);
+	counter = 0;
+	tmp = s1;
 	if (!(p = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)
 		+ 1) * sizeof(char))))
 		return (NULL);
@@ -47,9 +47,10 @@ char	*ft_strdup(const char *s1)
 	if (!(res = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char))))
 		return (NULL);
 	counter = 0;
-	while (s1[counter] != '\0')
+	while (*s1 != '\0')
 	{
-		res[counter] = s1[counter];
+		res[counter] = *s1;
+		s1++;
 		counter++;
 	}
 	res[counter] = '\0';
